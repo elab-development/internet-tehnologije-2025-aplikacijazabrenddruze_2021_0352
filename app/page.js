@@ -1,66 +1,85 @@
 import Image from "next/image";
+import mysql from 'mysql2/promise';
+import Link from "next/link";
 
-export default function Home() {
+export default async function Home() {
+  const connection = await mysql.createConnection({
+    host : 'localhost',
+    user : 'root',
+    password : 'roottam1',
+    database : 'druze_shop'
+
+
+  });
+
+  const [users] = await connection.execute('SELECT * FROM users');
+
+  await connection.end();
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Brend Druze
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Tvoje omiljeno mesto za autentične cegere i majice. 
-            Svi proizvodi su spremni u bazi!
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+  <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    
+    <main className="flex min-h-screen w-full max-w-3xl flex-col items-start py-20 px-12 bg-white dark:bg-zinc-900 shadow-xl border-x border-zinc-100 dark:border-zinc-800">
+      
+      
+      <div className="flex flex-col gap-4 w-full border-b pb-8 border-zinc-100 dark:border-zinc-800">
+        <h1 className="text-4xl font-black tracking-tighter text-black dark:text-zinc-50 uppercase">
+          Brend <span className="text-druze-roze">Druže</span>
+        </h1>
+        <p className="text-lg text-zinc-500 dark:text-zinc-400 font-medium">
+          Admin Panel — Upravljanje bazom podataka
+        </p>
+      </div>
+
+      
+      <div className="mt-12 w-full">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">
+            Aktivni Administratori
+          </h2>
+          <span className="bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full text-xs font-bold text-zinc-500 uppercase tracking-widest">
+            {users.length} Ukupno
+          </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="grid gap-3 w-full">
+          {users.map((user) => (
+            <div 
+              key={user.id} 
+              className="group flex items-center justify-between p-5 border border-zinc-100 rounded-2xl bg-zinc-50/50 hover:bg-white hover:shadow-md transition-all dark:bg-zinc-800/50 dark:border-zinc-700"
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center font-bold text-zinc-600 dark:text-zinc-400">
+                  {user.ime_prezime[0].toUpperCase()}
+                </div>
+                <div>
+                  <p className="font-bold text-zinc-900 dark:text-zinc-100">
+                    {user.ime_prezime}
+                  </p>
+                  <p className="text-xs text-zinc-400 italic font-mono">ID: #{user.id}</p>
+                </div>
+              </div>
+              <button className="text-xs font-bold text-zinc-400 hover:text-red-500 transition-colors uppercase tracking-tight">
+                Ukloni
+              </button>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
-  );
+      </div>
+
+    
+      <div className="mt-16 flex flex-col gap-4 w-full sm:flex-row">
+        <button className="h-14 flex-1 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
+          DODAJ NOVOG ADMINA +
+        </button>
+        <Link 
+    href="/products" 
+    className="h-14 flex-1 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 font-bold text-sm text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 transition-colors flex items-center justify-center uppercase tracking-widest"
+  >
+    VIDI PROIZVODE 👕👜
+  </Link>
+</div>
+
+    </main>
+  </div>
+);
 }

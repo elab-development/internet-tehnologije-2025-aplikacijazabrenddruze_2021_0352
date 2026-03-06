@@ -52,3 +52,22 @@ CREATE TABLE reviews (
     comment TEXT,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+INSERT INTO categories (naziv) VALUES ('Cegeri'), ('Majice');
+
+
+INSERT INTO products (naziv, opis, cena, lager, category_id) VALUES 
+('Ceger "Brend Druze" - Klasik', 'Ekološki pamučni ceger sa logoom.', 1200.00, 50, 1),
+('Ceger "Umetnost na ramenu"', 'Specijalna edicija sa ilustracijom.', 1500.00, 30, 1),
+('Majica "Druze" Bela', 'Kvalitetna 100% pamučna majica.', 1800.00, 20, 2),
+('Majica "Druze" Crna', 'Oversized model sa printom.', 2200.00, 15, 2);
+
+INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
+VALUES ('Tamara Drca', 'tamara@druze.rs', 'sifra123', 'admin', 'Beogradska 1', '060123456');
+
+INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
+VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', 'sifra123', 'admin', 'Beogradska 2', '060123457');
+
+INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
+VALUES ('Miro Rakocevic', 'miro@druze.rs', 'sifra123', 'admin', 'Beogradska 3', '060123458');
