@@ -2,4 +2,4 @@
 Web aplikacija za prodaju majica i pamučnih cegera.
 
 ## Tehnologije
-* Next.js, Node.js, PostgreSQL, Docker.
+* Next.js, Node.js, MySQL, Docker.

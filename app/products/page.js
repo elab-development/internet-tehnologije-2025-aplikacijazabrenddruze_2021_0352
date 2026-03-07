@@ -6,11 +6,11 @@ import ProductCard from "../..//components/ProductCard";
 export default async function ProductsPage() {
   
   const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: "",
-    database: 'druze_shop'
-  });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
 
   const [products] = await connection.execute('SELECT * FROM products');
   await connection.end();
@@ -19,11 +19,11 @@ export default async function ProductsPage() {
   async function dodajProizvod(formData) {
     'use server';
     const connection = await mysql.createConnection({
-      host: 'localhost', 
-      user: 'root', 
-      password: "", 
-      database: 'druze_shop'
-    });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
 
     
     await connection.execute(
@@ -44,11 +44,11 @@ export default async function ProductsPage() {
     'use server';
     const id = formData.get('id');
     const connection = await mysql.createConnection({
-      host: 'localhost', 
-      user: 'root', 
-      password: "", 
-      database: 'druze_shop'
-    });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
     await connection.execute('DELETE FROM products WHERE id = ?', [id]);
     await connection.end();
     revalidatePath('/products');
@@ -76,7 +76,7 @@ export default async function ProductsPage() {
       </div>
 
       <div className="p-8 border-t border-zinc-200 mt-10">
-        <h2 className="text-sm font-bold uppercase mb-4 text-zinc-400 italic">Administracija (Mirov deo):</h2>
+        <h2 className="text-sm font-bold uppercase mb-4 text-zinc-400 italic">Administracija:</h2>
         <ClientProductsUI 
           products={products} 
           dodajAction={dodajProizvod} 

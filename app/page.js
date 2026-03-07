@@ -4,13 +4,11 @@ import Link from "next/link";
 
 export default async function Home() {
   const connection = await mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : "",
-    database : 'druze_shop'
-
-
-  });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
 
   const [users] = await connection.execute('SELECT * FROM users');
 
@@ -58,9 +56,21 @@ export default async function Home() {
                   <p className="text-xs text-zinc-400 italic font-mono">ID: #{user.id}</p>
                 </div>
               </div>
-              <button className="text-xs font-bold text-zinc-400 hover:text-red-500 transition-colors uppercase tracking-tight">
-                Ukloni
-              </button>
+              <button 
+  onClick={async () => {
+    if (confirm(`Da li ste sigurni da želite da obrišete admina: ${user.ime_prezime}?`)) {
+      try {
+        await obrisiAdminAction(user.id);
+      } catch (error) {
+        alert("Došlo je do greške prilikom brisanja.");
+        console.error(error);
+      }
+    }
+  }}
+  className="text-xs font-bold text-zinc-400 hover:text-red-500 transition-colors uppercase tracking-tight"
+>
+  Ukloni
+</button>
             </div>
           ))}
         </div>
@@ -68,9 +78,12 @@ export default async function Home() {
 
     
       <div className="mt-16 flex flex-col gap-4 w-full sm:flex-row">
-        <button className="h-14 flex-1 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
+        <Link 
+        href = "/admin"
+        className="h-14 flex-1 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
           DODAJ NOVOG ADMINA +
-        </button>
+        </Link>
+
         <Link 
     href="/products" 
     className="h-14 flex-1 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 font-bold text-sm text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 transition-colors flex items-center justify-center uppercase tracking-widest"
