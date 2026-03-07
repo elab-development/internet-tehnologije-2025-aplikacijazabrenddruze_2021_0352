@@ -5,11 +5,11 @@ import ClientProductsUI from './ClientProductsUI';
 export default async function ProductsPage() {
   
   const connection = await mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'roottam1',
-    database: 'druze_shop'
-  });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
 
   const [products] = await connection.execute('SELECT * FROM products');
   await connection.end();
@@ -18,11 +18,11 @@ export default async function ProductsPage() {
   async function dodajProizvod(formData) {
     'use server';
     const connection = await mysql.createConnection({
-      host: 'localhost', 
-      user: 'root', 
-      password: 'roottam1', 
-      database: 'druze_shop'
-    });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
 
     
     await connection.execute(
@@ -43,11 +43,11 @@ export default async function ProductsPage() {
     'use server';
     const id = formData.get('id');
     const connection = await mysql.createConnection({
-      host: 'localhost', 
-      user: 'root', 
-      password: 'roottam1', 
-      database: 'druze_shop'
-    });
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
     await connection.execute('DELETE FROM products WHERE id = ?', [id]);
     await connection.end();
     revalidatePath('/products');
