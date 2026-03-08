@@ -88,7 +88,7 @@ export default async function Home() {
     href="/products" 
     className="h-14 flex-1 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 font-bold text-sm text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 transition-colors flex items-center justify-center uppercase tracking-widest"
   >
-    VIDI PROIZVODE 👕👜
+    VIDI PROIZVODE 
   </Link>
 </div>
 
