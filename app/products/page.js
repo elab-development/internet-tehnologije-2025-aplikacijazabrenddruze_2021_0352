@@ -11,6 +11,15 @@ export default async function ProductsPage() {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
 });
+/*
+const connection = await mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'roottam1',
+  database : 'druze_shop'
+
+});
+*/
 
   const [products] = await connection.execute('SELECT * FROM products');
   await connection.end();

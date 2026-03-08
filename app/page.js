@@ -1,15 +1,33 @@
 import Image from "next/image";
 import mysql from 'mysql2/promise';
 import Link from "next/link";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
-  const connection = await mysql.createConnection({
+  
+
+const cookieStore = await cookies();
+  const uloga = cookieStore.get('korisnik_uloga')?.value;
+  if(uloga!=='admin'){
+    redirect('/products');
+  }
+
+   const connection = await mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
 });
+  /*  
+const connection = await mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'roottam1',
+  database : 'druze_shop'
 
+});
+*/
   const [users] = await connection.execute('SELECT * FROM users');
 
   await connection.end();
@@ -57,16 +75,7 @@ export default async function Home() {
                 </div>
               </div>
               <button 
-  onClick={async () => {
-    if (confirm(`Da li ste sigurni da želite da obrišete admina: ${user.ime_prezime}?`)) {
-      try {
-        await obrisiAdminAction(user.id);
-      } catch (error) {
-        alert("Došlo je do greške prilikom brisanja.");
-        console.error(error);
-      }
-    }
-  }}
+  
   className="text-xs font-bold text-zinc-400 hover:text-red-500 transition-colors uppercase tracking-tight"
 >
   Ukloni

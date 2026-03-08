@@ -64,10 +64,10 @@ INSERT INTO products (naziv, opis, cena, lager, category_id) VALUES
 ('Majica "Druze" Crna', 'Oversized model sa printom.', 2200.00, 15, 2);
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Tamara Drca', 'tamara@druze.rs', 'sifra123', 'admin', 'Beogradska 1', '060123456');
+VALUES ('Tamara Drca', 'tamara@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 1', '060123456');
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', 'sifra123', 'admin', 'Beogradska 2', '060123457');
+VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 2', '060123457');
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Miro Rakocevic', 'miro@druze.rs', 'sifra123', 'admin', 'Beogradska 3', '060123458');
+VALUES ('Miro Rakocevic', 'miro@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 3', '060123458');

@@ -67,17 +67,17 @@ export default function AdminUI({ users }) {
                 </div>
               </div>
 
-
-              <button 
-                onClick={async () => {
-                  if(confirm(`Da li ste sigurni da želite obrisati admina: ${user.ime_prezime}?`)) {
-                    await obrisiAdminAction(user.id);
-                  }
-                }}
-                className="opacity-0 group-hover:opacity-100 p-2 text-zinc-400 hover:text-red-500 transition-all text-sm font-bold uppercase tracking-tighter"
-              >
-                Ukloni ×
-              </button>
+<button 
+  onClick={async () => {
+    if(confirm(`Da li ste sigurni da želite obrisati admina: ${user.ime_prezime}?`)) {
+      await obrisiAdminAction(user.id);
+    }
+  }}
+  className="opacity-0 group-hover:opacity-100 p-2 text-zinc-400 hover:text-red-500 transition-all text-sm font-bold uppercase tracking-tighter"
+>
+  Ukloni ×
+</button>
+             
             </div>
           ))}
         </div>
