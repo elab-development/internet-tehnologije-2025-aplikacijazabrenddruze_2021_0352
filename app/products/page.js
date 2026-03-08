@@ -42,7 +42,8 @@ const connection = await mysql.createConnection({
         formData.get('opis'), 
         formData.get('cena'), 
         formData.get('lager'),
-        formData.get('category_id') 
+        formData.get('category_id'), 
+        formData.get('dostupne_velicine')
       ]
     );
     await connection.end();

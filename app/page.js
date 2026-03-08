@@ -74,12 +74,16 @@ const connection = await mysql.createConnection({
                   <p className="text-xs text-zinc-400 italic font-mono">ID: #{user.id}</p>
                 </div>
               </div>
+<<<<<<< Updated upstream
               <button 
   
   className="text-xs font-bold text-zinc-400 hover:text-red-500 transition-colors uppercase tracking-tight"
 >
   Ukloni
 </button>
+=======
+              
+>>>>>>> Stashed changes
             </div>
           ))}
         </div>
