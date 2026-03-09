@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import DodajUKorpu from '@/components/DodajUKorpu'; // ISPRAVLJEN IMPORT
+import DodajUKorpu from '@/components/DodajUKorpu'; 
 
 export default async function SingleProductPage({ params }) {
     const resolvedParams = await params;
@@ -18,7 +18,7 @@ export default async function SingleProductPage({ params }) {
 
     if (!product) return <div className="p-20 text-center uppercase font-black italic text-zinc-400">Artikal nije pronađen.</div>;
 
-    //text-[var(--color-druze-roze)]
+
     return (
         <main className="min-h-screen bg-white text-black font-sans selection:bg-[var(--color-druze-roze)] selection:text-white">
             <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">

@@ -17,7 +17,7 @@ export default async function Navbar() {
         <Link href="/cart" className="hover:text-[var(--color-druze-roze)] transition-colors flex items-center gap-1">
           Moja korpa <CartCounter />
         </Link>
-        
+
         <Link href="/onama" className="hover:text-[var(--color-druze-roze)] transition-colors">
           O nama
         </Link>
