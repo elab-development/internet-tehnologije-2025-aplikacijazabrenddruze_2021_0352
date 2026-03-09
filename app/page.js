@@ -1,45 +1,102 @@
+import Image from "next/image";
 import mysql from 'mysql2/promise';
 import Link from "next/link";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
-  });
+  
 
-  const [proizvodi] = await connection.execute('SELECT * FROM products');
+const cookieStore = await cookies();
+  const uloga = cookieStore.get('korisnik_uloga')?.value;
+  if(uloga!=='admin'){
+    redirect('/products');
+  }
+
+   const connection = await mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
+  /*  
+const connection = await mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'roottam1',
+  database : 'druze_shop'
+
+});
+*/
+  const [users] = await connection.execute('SELECT * FROM users');
+
   await connection.end();
-
   return (
-    <main className="min-h-screen bg-white p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-6xl font-black uppercase tracking-tighter mb-12">
-          Nova <span className="text-[#ff00ff]">Kolekcija</span>
+  <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    
+    <main className="flex min-h-screen w-full max-w-3xl flex-col items-start py-20 px-12 bg-white dark:bg-zinc-900 shadow-xl border-x border-zinc-100 dark:border-zinc-800">
+      
+      
+      <div className="flex flex-col gap-4 w-full border-b pb-8 border-zinc-100 dark:border-zinc-800">
+        <h1 className="text-4xl font-black tracking-tighter text-black dark:text-zinc-50 uppercase">
+          Brend <span className="text-druze-roze">Druže</span>
         </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {proizvodi.map((proizvod) => (
-            <Link href={`/products/${proizvod.id}`} key={proizvod.id} className="group">
-              <div className="aspect-[3/4] border-2 border-black overflow-hidden relative bg-zinc-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[8px_8px_0px_0px_rgba(255,0,255,1)] transition-all">
-                <img 
-                  src={proizvod.slika_url || "/images/placeholder.jpg"} 
-                  alt={proizvod.naziv}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="mt-4 flex justify-between items-start font-black uppercase italic">
-                <div>
-                  <h3 className="text-lg leading-none">{proizvod.naziv}</h3>
-                  <p className="text-zinc-400 text-xs mt-1">{proizvod.kategorija}</p>
+        <p className="text-lg text-zinc-500 dark:text-zinc-400 font-medium">
+          Admin Panel — Upravljanje bazom podataka
+        </p>
+      </div>
+
+      
+      <div className="mt-12 w-full">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold text-zinc-800 dark:text-zinc-200">
+            Aktivni Administratori
+          </h2>
+          <span className="bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full text-xs font-bold text-zinc-500 uppercase tracking-widest">
+            {users.length} Ukupno
+          </span>
+        </div>
+
+        <div className="grid gap-3 w-full">
+          {users.map((user) => (
+            <div 
+              key={user.id} 
+              className="group flex items-center justify-between p-5 border border-zinc-100 rounded-2xl bg-zinc-50/50 hover:bg-white hover:shadow-md transition-all dark:bg-zinc-800/50 dark:border-zinc-700"
+            >
+              <div className="flex items-center gap-4">
+                <div className="h-10 w-10 rounded-full bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center font-bold text-zinc-600 dark:text-zinc-400">
+                  {user.ime_prezime[0].toUpperCase()}
                 </div>
-                <p className="text-lg">{proizvod.cena} RSD</p>
+                <div>
+                  <p className="font-bold text-zinc-900 dark:text-zinc-100">
+                    {user.ime_prezime}
+                  </p>
+                  <p className="text-xs text-zinc-400 italic font-mono">ID: #{user.id}</p>
+                </div>
               </div>
-            </Link>
+              
+            </div>
           ))}
         </div>
       </div>
+
+    
+      <div className="mt-16 flex flex-col gap-4 w-full sm:flex-row">
+        <Link 
+        href = "/admin"
+        className="h-14 flex-1 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg">
+          DODAJ NOVOG ADMINA +
+        </Link>
+
+        <Link 
+    href="/products" 
+    className="h-14 flex-1 rounded-2xl border-2 border-zinc-100 dark:border-zinc-800 font-bold text-sm text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 transition-colors flex items-center justify-center uppercase tracking-widest"
+  >
+    VIDI PROIZVODE 
+  </Link>
+</div>
+
     </main>
-  );
+  </div>
+);
 }

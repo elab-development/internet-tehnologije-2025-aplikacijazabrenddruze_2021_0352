@@ -1,75 +1,51 @@
-import mysql from 'mysql2/promise';
 import { revalidatePath } from 'next/cache';
 import ClientProductsUI from './ClientProductsUI'; 
-import ProductCard from "../..//components/ProductCard";
+import ProductCard from "../../components/ProductCard";
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+// 1. Inicijalizujemo našu Prismu (umesto njenog MySQL-a)
+const adapter = new PrismaPg({ 
+  connectionString: process.env.DATABASE_URL 
+});
+const prisma = new PrismaClient({ adapter });
 
 export default async function ProductsPage() {
   
-  const connection = await mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
-/*
-const connection = await mysql.createConnection({
-  host : 'localhost',
-  user : 'root',
-  password : 'roottam1',
-  database : 'druze_shop'
-
-});
-*/
-
-  const [products] = await connection.execute('SELECT * FROM products');
-  await connection.end();
-
+  // 2. Povlačimo sve proizvode na Prisma način
+  const products = await prisma.product.findMany();
   
+  // Server Action za dodavanje (Prisma verzija)
   async function dodajProizvod(formData) {
     'use server';
-    const connection = await mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
-
     
-    await connection.execute(
-      'INSERT INTO products (naziv, opis, cena, lager, category_id) VALUES (?, ?, ?, ?, ?)',
-      [
-        formData.get('naziv'), 
-        formData.get('opis'), 
-        formData.get('cena'), 
-        formData.get('lager'),
-        formData.get('category_id'), 
-        formData.get('dostupne_velicine')
-      ]
-    );
-    await connection.end();
+    await prisma.product.create({
+      data: {
+        naziv: formData.get('naziv'),
+        opis: formData.get('opis'),
+        cena: parseFloat(formData.get('cena')), // Pretvaramo u broj
+        lager: parseInt(formData.get('lager')), // Pretvaramo u broj
+        category_id: parseInt(formData.get('category_id')),
+      }
+    });
+    
     revalidatePath('/products');
   }
 
+  // Server Action za brisanje (Prisma verzija)
   async function obrisiProizvod(formData) {
     'use server';
-    const id = formData.get('id');
-    const connection = await mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
-    await connection.execute('DELETE FROM products WHERE id = ?', [id]);
-    await connection.end();
+    const id = parseInt(formData.get('id'));
+    
+    await prisma.product.delete({
+      where: { id: id }
+    });
+    
     revalidatePath('/products');
   }
 
-  
   return (
     <main className="min-h-screen bg-white">
-           
-
-
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard 
