@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,18 +11,17 @@ model Category {
   naziv    String
   products Product[]
 
-  @@map("categories") 
+  @@map("categories")
 }
 
 model User {
-  id              Int       @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   ime_prezime     String
-  email           String    @unique
+  email           String   @unique
   password        String
-  uloga           String    @default("kupac")
-  adresa          String?   
+  uloga           String   @default("kupac")
+  adresa          String?
   kontakt_telefon String?
-  
   orders          Order[]
   reviews         Review[]
 
@@ -38,15 +31,13 @@ model User {
 model Product {
   id          Int         @id @default(autoincrement())
   naziv       String
-  opis        String?     @db.Text
+  opis        String?
   cena        Decimal     @db.Decimal(10, 2)
   slika_url   String?
   lager       Int         @default(0)
-  
   category_id Int?
-  category    Category?   @relation(fields: [category_id], references: [id], onDelete: SetNull)
-  
   order_items OrderItem[]
+  category    Category?   @relation(fields: [category_id], references: [id])
   reviews     Review[]
 
   @@map("products")
@@ -55,38 +46,36 @@ model Product {
 model Order {
   id          Int         @id @default(autoincrement())
   user_id     Int?
-  user        User?       @relation(fields: [user_id], references: [id], onDelete: Cascade)
   datum       DateTime    @default(now())
   ukupna_cena Decimal?    @db.Decimal(10, 2)
   status      String      @default("na obradi")
-  
   order_items OrderItem[]
+  user        User?       @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("orders")
 }
 
 model OrderItem {
-  id         Int      @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   order_id   Int
-  order      Order    @relation(fields: [order_id], references: [id], onDelete: Cascade)
   product_id Int
-  product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
   kolicina   Int
-  cena_komad Decimal  @db.Decimal(10, 2)
+  cena_komad Decimal @db.Decimal(10, 2)
+  order      Order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
 
   @@map("order_items")
 }
 
-
 model Review {
   id         Int      @id @default(autoincrement())
   user_id    Int
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
   product_id Int
-  product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
   rating     Int
-  comment    String?  @db.Text
+  comment    String?
   date       DateTime @default(now())
+  product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@map("reviews")
 }
