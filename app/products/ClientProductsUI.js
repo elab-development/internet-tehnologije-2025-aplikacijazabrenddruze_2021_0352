@@ -7,18 +7,6 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
   return (
     <div className="min-h-screen bg-zinc-50 p-12 font-sans text-black">
       <div className="max-w-5xl mx-auto">
-
-        <div className="flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-black uppercase italic">Brend <span className="text-druze-roze">Druže</span> - Inventar</h1>
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="h-14 px-8 bg-black text-white rounded-2xl font-bold hover:scale-105 transition-all shadow-lg"
-          >
-            {showForm ? 'ZATVORI ×' : 'NOVI PROIZVOD +'}
-          </button>
-        </div>
-
-
         {showForm && (
           <form action={(fd) => { dodajAction(fd); setShowForm(false); }} className="mb-12 p-8 bg-white border-4 border-black rounded-[2.5rem] grid grid-cols-2 gap-4 shadow-2xl">
             <input name="naziv" placeholder="Naziv artikla" className="p-4 bg-zinc-100 rounded-2xl outline-none" required />
@@ -31,7 +19,7 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
               <option value="2">Majica</option>
             </select>
 
-            
+
             <input
               name="dostupne_velicine"
               placeholder="Veličine S,M,L,XL; ostavi prazno za cegere"
@@ -70,7 +58,14 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
             </div>
           ))}
         </div>
-
+        <div className="flex justify-between items-center mb-10">
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="h-14 px-8 bg-black text-white rounded-2xl font-bold hover:scale-105 transition-all shadow-lg"
+          >
+            {showForm ? 'ZATVORI ×' : 'NOVI PROIZVOD +'}
+          </button>
+        </div>
       </div>
     </div>
   );

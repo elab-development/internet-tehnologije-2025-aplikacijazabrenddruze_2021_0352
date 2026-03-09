@@ -4,21 +4,23 @@ import DodajUKorpu from '@/components/DodajUKorpu';
 export default async function SingleProductPage({ params }) {
     const resolvedParams = await params;
     const id = resolvedParams.id;
-const connection = await mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'roottam1',
-    database: process.env.DB_NAME || 'druze_shop'
-  });
-  
+
+    const connection = await mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME
+    });
+
     const [rows] = await connection.execute('SELECT * FROM products WHERE id = ?', [id]);
     const product = rows[0];
     await connection.end();
 
     if (!product) return <div className="p-20 text-center uppercase font-black italic text-zinc-400">Artikal nije pronađen.</div>;
 
+
     return (
-        <main className="min-h-screen bg-white text-black font-sans selection:bg-[#ff00ff] selection:text-white">
+        <main className="min-h-screen bg-white text-black font-sans selection:bg-[var(--color-druze-roze)] selection:text-white">
             <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
                 
                 <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-24 items-start">
@@ -42,7 +44,7 @@ const connection = await mysql.createConnection({
                             {product.naziv && product.naziv.split(" ").map((word, index) => {
                                 if (word.toLowerCase().includes("druže")) {
                                     return (
-                                        <span key={index} className="text-[#ff00ff]">
+                                        <span key={index} className="text-[var(--color-druze-roze)]">
                                             {word}{" "}
                                         </span>
                                     );
@@ -51,7 +53,7 @@ const connection = await mysql.createConnection({
                             })}
                         </h1>
 
-                        <p className="text-2xl font-black text-[#ff00ff] mb-8 tracking-tight">
+                        <p className="text-2xl font-black text-[var(--color-druze-roze)] mb-8 tracking-tight">
                             {product.cena} RSD
                         </p>
 

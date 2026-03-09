@@ -23,14 +23,14 @@ async function main() {
 
   await prisma.product.createMany({
     data: [
-      { naziv: 'Ceger "Brend Druze" - Klasik', opis: 'Ekološki pamučni ceger sa logoom.', cena: 1200.00, lager: 50, category_id: katCegeri.id },
-      { naziv: 'Ceger "Umetnost na ramenu"', opis: 'Specijalna edicija sa ilustracijom.', cena: 1500.00, lager: 30, category_id: katCegeri.id },
-      { naziv: 'Majica "Druze" Bela', opis: 'Kvalitetna 100% pamučna majica.', cena: 1800.00, lager: 20, category_id: katMajice.id },
-      { naziv: 'Majica "Druze" Crna', opis: 'Oversized model sa printom.', cena: 2200.00, lager: 15, category_id: katMajice.id }
+      { naziv: 'Ceger "Brend Druze" - Klasik', opis: 'Ekološki pamučni ceger sa logoom.', cena: 1200.00, slika_url: '/images/cegerDruze.jpg', lager: 50, category_id: katCegeri.id },
+      { naziv: 'Ceger "Umetnost na ramenu"', opis: 'Specijalna edicija sa ilustracijom.', cena: 1500.00, slika_url: '/images/dizvinesCeger.jpg', lager: 30, category_id: katCegeri.id },
+      { naziv: 'Majica "Druze" Bela', opis: 'Kvalitetna 100% pamučna majica.', cena: 1800.00, slika_url: '/images/sveMajice.jpg', lager: 20, category_id: katMajice.id },
+      { naziv: 'Majica "Druze" Crna', opis: 'Oversized model sa printom.', cena: 2200.00, slika_url: '/images/druyeFront.jpg', lager: 15, category_id: katMajice.id }
     ]
   });
 
-  console.log('Baza je uspešno popunjena početnim podacima! 🎉');
+  console.log('Baza je uspešno popunjena početnim podacima!');
 }
 
 main()
