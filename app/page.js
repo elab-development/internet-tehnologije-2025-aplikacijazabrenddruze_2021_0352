@@ -13,32 +13,37 @@ export default async function Home() {
   await connection.end();
 
   return (
-    <main className="min-h-screen bg-white p-8">
+    <main className="min-h-screen bg-white p-8 md:p-16 text-black">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-6xl font-black uppercase tracking-tighter mb-12">
-          Nova <span className="text-[#ff00ff]">Kolekcija</span>
-        </h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mb-16">
+         <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+            <span className="text-[var(--color-druze-roze)]">Druže</span> <br />
+            Kolekcija 2026
+          </h1>
+          <div className="h-2 w-32 bg-black mt-4"></div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {proizvodi.map((proizvod) => (
             <Link href={`/products/${proizvod.id}`} key={proizvod.id} className="group">
-              <div className="aspect-[3/4] border-2 border-black overflow-hidden relative bg-zinc-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[8px_8px_0px_0px_rgba(255,0,255,1)] transition-all">
+              <div className="w-full aspect-[3/4] border-2 border-black overflow-hidden relative bg-zinc-50 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[10px_10px_0px_0px_var(--color-druze-roze)] transition-all duration-300">
                 <img 
                   src={proizvod.slika_url || "/images/placeholder.jpg"} 
                   alt={proizvod.naziv}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500"
                 />
-              </div>
-              <div className="mt-4 flex justify-between items-start font-black uppercase italic">
-                <div>
-                  <h3 className="text-lg leading-none">{proizvod.naziv}</h3>
-                  <p className="text-zinc-400 text-xs mt-1">{proizvod.kategorija}</p>
+                
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/10">
+                  <div className="bg-white border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    Vidi detalje
+                  </div>
                 </div>
-                <p className="text-lg">{proizvod.cena} RSD</p>
               </div>
             </Link>
           ))}
         </div>
+
       </div>
     </main>
   );

@@ -18,8 +18,9 @@ export default async function SingleProductPage({ params }) {
 
     if (!product) return <div className="p-20 text-center uppercase font-black italic text-zinc-400">Artikal nije pronađen.</div>;
 
+    //text-[var(--color-druze-roze)]
     return (
-        <main className="min-h-screen bg-white text-black font-sans selection:bg-[#ff00ff] selection:text-white">
+        <main className="min-h-screen bg-white text-black font-sans selection:bg-[var(--color-druze-roze)] selection:text-white">
             <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
                 
                 <div className="grid grid-cols-1 md:grid-cols-[1.2fr_0.8fr] gap-12 lg:gap-24 items-start">
@@ -43,7 +44,7 @@ export default async function SingleProductPage({ params }) {
                             {product.naziv && product.naziv.split(" ").map((word, index) => {
                                 if (word.toLowerCase().includes("druže")) {
                                     return (
-                                        <span key={index} className="text-[#ff00ff]">
+                                        <span key={index} className="text-[var(--color-druze-roze)]">
                                             {word}{" "}
                                         </span>
                                     );
@@ -52,7 +53,7 @@ export default async function SingleProductPage({ params }) {
                             })}
                         </h1>
 
-                        <p className="text-2xl font-black text-[#ff00ff] mb-8 tracking-tight">
+                        <p className="text-2xl font-black text-[var(--color-druze-roze)] mb-8 tracking-tight">
                             {product.cena} RSD
                         </p>
 

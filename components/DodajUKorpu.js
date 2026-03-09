@@ -103,7 +103,7 @@ export default function DodajUKorpu({ proizvod }) {
             <div className="pt-8">
                 <button 
                     onClick={handleDodajUKorpu}
-                    className="w-full bg-black text-white py-6 font-black uppercase text-lg hover:bg-[#ff00ff] transition-all active:scale-[0.97] shadow-[8px_8px_0px_0px_rgba(255,0,255,0.3)] border-2 border-black cursor-pointer"
+                    className="w-full bg-black text-white py-6 font-black uppercase text-lg hover:bg-[var(--color-druze-roze)] transition-all active:scale-[0.97] shadow-[8px_8px_0px_0px_rgba(255,0,255,0.3)] border-2 border-black cursor-pointer"
                 >
                     DODAJ U KORPU
                    

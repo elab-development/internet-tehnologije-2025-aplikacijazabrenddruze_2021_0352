@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link';
 import { ulogujKorisnika } from '../actions/auth'; // Ovo ćemo napraviti u koraku 2
 
