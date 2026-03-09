@@ -71,3 +71,10 @@ VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', '$2b$10$6Jojqg34/alw45Duto
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
 VALUES ('Miro Rakocevic', 'miro@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 3', '060123458');
+
+
+UPDATE products SET slika_url = '/images/cegerDruze.jpg' WHERE id = 1;
+UPDATE products SET slika_url = '/images/cegerDizvines.jpg' WHERE id = 2;
+UPDATE products SET slika_url = '/images/aStaAkoUspeMajica2.jpg' WHERE id = 3;
+UPDATE products SET slika_url = '/images/koZna.jpg' WHERE id = 4;
+

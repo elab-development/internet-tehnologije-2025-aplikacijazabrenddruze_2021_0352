@@ -1,34 +1,23 @@
 import mysql from 'mysql2/promise';
 import Link from "next/link";
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation'; // OVO JE FALILO!
 
 export default async function Home() {
-  
-  const cookieStore = await cookies();
-  const uloga = cookieStore.get('korisnik_uloga')?.value;
-  
-  if(uloga !== 'admin'){
-    redirect('/products');
-  }
-
   const connection = await mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : 'roottam1',
-    database : 'druze_shop'
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'roottam1',
+    database: process.env.DB_NAME || 'druze_shop'
   });
-
-  // Učitavamo proizvode za kolekciju
   const [proizvodi] = await connection.execute('SELECT * FROM products');
   await connection.end();
 
   return (
     <main className="min-h-screen bg-white p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-6xl font-black uppercase tracking-tighter mb-12">
-          Nova <span className="text-[#ff00ff]">Kolekcija</span>
-        </h1>
+       <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+            <span className="text-[var(--color-druze-roze)]">Druže</span> <br />
+            Kolekcija 2026
+          </h1>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {proizvodi.map((proizvod) => (

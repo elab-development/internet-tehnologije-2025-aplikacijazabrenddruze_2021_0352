@@ -15,12 +15,11 @@ const dbConfig = {
 };
 */
 const dbConfig = {
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  host : 'localhost',
+  user : 'root',
+  password : 'roottam1',
+  database : 'druze_shop'
 };
-
 
 // --- FUNKCIJA ZA REGISTRACIJU ---
 export async function registrujKorisnika(formData) {
@@ -94,8 +93,8 @@ export async function ulogujKorisnika(formData) {
 
   // --- KLJUČNA IZMENA: REDIRECT MORA BITI OVDE (VAN TRY-CATCH) ---
   if (ulogaKorisnika === 'admin') {
-    redirect('/'); 
+    redirect('/admin'); 
   } else {
-    redirect('/products'); 
+    redirect('/'); 
   }
 }

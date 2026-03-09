@@ -11,7 +11,6 @@ export default async function AdminPanel() {
     redirect('/products');
   }
 
-  // PAMETNA KONEKCIJA: Prvo gleda Docker (.env), a ako ga nema (kod tebe), koristi localhost
   const connection = await mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -73,7 +72,7 @@ export default async function AdminPanel() {
             DODAJ ADMINA +
           </button>
           <Link 
-            href="/products" 
+            href="/" 
             className="h-14 flex-1 border-2 border-black font-black text-xs text-black transition-colors flex items-center justify-center uppercase tracking-widest hover:bg-zinc-100"
           >
             NAZAD NA SHOP

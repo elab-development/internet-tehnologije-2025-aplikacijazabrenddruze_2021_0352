@@ -6,11 +6,11 @@ import ProductCard from "../..//components/ProductCard";
 export default async function ProductsPage() {
   
   const connection = await mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
-});
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || 'roottam1',
+      database: process.env.DB_NAME || 'druze_shop'
+    });
 /*
 const connection = await mysql.createConnection({
   host : 'localhost',
@@ -42,7 +42,8 @@ const connection = await mysql.createConnection({
         formData.get('opis'), 
         formData.get('cena'), 
         formData.get('lager'),
-        formData.get('category_id') 
+        formData.get('category_id'), 
+        formData.get('dostupne_velicine')
       ]
     );
     await connection.end();
