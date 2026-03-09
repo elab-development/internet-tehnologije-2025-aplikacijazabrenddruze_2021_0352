@@ -4,14 +4,13 @@ import DodajUKorpu from '@/components/DodajUKorpu'; // ISPRAVLJEN IMPORT
 export default async function SingleProductPage({ params }) {
     const resolvedParams = await params;
     const id = resolvedParams.id;
-
-    const connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME
-    });
-
+const connection = await mysql.createConnection({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'roottam1',
+    database: process.env.DB_NAME || 'druze_shop'
+  });
+  
     const [rows] = await connection.execute('SELECT * FROM products WHERE id = ?', [id]);
     const product = rows[0];
     await connection.end();

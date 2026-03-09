@@ -12,8 +12,30 @@ const prisma = new PrismaClient({ adapter });
 
 export default async function ProductsPage() {
   
+<<<<<<< HEAD
   // 2. Povlačimo sve proizvode na Prisma način
   const products = await prisma.product.findMany();
+=======
+  const connection = await mysql.createConnection({
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || 'roottam1',
+      database: process.env.DB_NAME || 'druze_shop'
+    });
+/*
+const connection = await mysql.createConnection({
+  host : 'localhost',
+  user : 'root',
+  password : 'roottam1',
+  database : 'druze_shop'
+
+});
+*/
+
+  const [products] = await connection.execute('SELECT * FROM products');
+  await connection.end();
+
+>>>>>>> 9cc19304360d5bcb8833b500e1fd59fe1f2260c3
   
   // Server Action za dodavanje (Prisma verzija)
   async function dodajProizvod(formData) {

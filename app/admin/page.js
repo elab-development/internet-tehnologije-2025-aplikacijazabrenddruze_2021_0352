@@ -12,10 +12,10 @@ export default async function AdminPanel() {
   }
 
   const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'roottam1',
+    database: process.env.DB_NAME || 'druze_shop'
   });
 
   const [users] = await connection.execute('SELECT * FROM users');
@@ -72,7 +72,7 @@ export default async function AdminPanel() {
             DODAJ ADMINA +
           </button>
           <Link 
-            href="/products" 
+            href="/" 
             className="h-14 flex-1 border-2 border-black font-black text-xs text-black transition-colors flex items-center justify-center uppercase tracking-widest hover:bg-zinc-100"
           >
             NAZAD NA SHOP
