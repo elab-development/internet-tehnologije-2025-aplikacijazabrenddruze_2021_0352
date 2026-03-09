@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ulogujKorisnika } from '../actions/auth'; // Ovo ćemo napraviti u koraku 2
+import { ulogujKorisnika } from '../actions/auth'; 
 
 export default function LoginPage() {
   return (
@@ -15,7 +15,7 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Povezujemo formu sa Server Akcijom */}
+        
         <form action={ulogujKorisnika} className="flex flex-col gap-5">
           
           <div className="flex flex-col gap-2">

@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import DodajUKorpu from '@/components/DodajUKorpu'; // ISPRAVLJEN IMPORT
+import DodajUKorpu from '@/components/DodajUKorpu'; 
 
 export default async function SingleProductPage({ params }) {
     const resolvedParams = await params;

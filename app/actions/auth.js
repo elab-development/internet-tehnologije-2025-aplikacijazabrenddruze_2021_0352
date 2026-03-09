@@ -5,23 +5,14 @@ import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
-/*
-// Tvoja lokalna konekcija za Sequel Ace
 const dbConfig = {
-  host: 'localhost',
-  user: 'root',
-  password: 'roottam1',
-  database: 'druze_shop'
-};
-*/
-const dbConfig = {
-  host : 'localhost',
-  user : 'root',
-  password : 'roottam1',
-  database : 'druze_shop'
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'roottam1',
+  database: process.env.DB_NAME || 'druze_shop'
 };
 
-// --- FUNKCIJA ZA REGISTRACIJU ---
+
 export async function registrujKorisnika(formData) {
   const ime_prezime = formData.get('ime_prezime');
   const email = formData.get('email');
@@ -29,14 +20,14 @@ export async function registrujKorisnika(formData) {
   const adresa = formData.get('adresa'); 
   const kontakt_telefon = formData.get('kontakt_telefon'); 
 
-  // Kriptovanje lozinke
+ 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
   const connection = await mysql.createConnection(dbConfig);
 
   try {
-    // Proširen SQL upit sa nove dve kolone
+    
     await connection.execute(
       'INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) VALUES (?, ?, ?, ?, ?, ?)',
       [ime_prezime, email, hashedPassword, 'kupac', adresa, kontakt_telefon]
@@ -47,18 +38,18 @@ export async function registrujKorisnika(formData) {
     await connection.end();
   }
 
-  // Preusmeravanje na prijavu nakon uspešne registracije
+  
   redirect('/login');
 }
 
-// --- FUNKCIJA ZA PRIJAVU (LOGIN) ---
+
 export async function ulogujKorisnika(formData) {
   const email = formData.get('email');
   const password = formData.get('password');
 
   const connection = await mysql.createConnection(dbConfig);
   
-  // Ovu promenljivu pravimo ovde da bismo je koristili van try bloka
+  
   let ulogaKorisnika = '';
 
   try {
@@ -77,7 +68,7 @@ export async function ulogujKorisnika(formData) {
       return; 
     }
 
-    // Sačuvaj ulogu za kasnije preusmeravanje
+    
     ulogaKorisnika = korisnik.uloga;
 
     const cookieStore = await cookies();
@@ -86,12 +77,12 @@ export async function ulogujKorisnika(formData) {
 
   } catch (error) {
     console.error("Greška pri logovanju:", error);
-    return; // Ako je stvarno greška u bazi, stani ovde
+    return; 
   } finally {
     await connection.end();
   }
 
-  // --- KLJUČNA IZMENA: REDIRECT MORA BITI OVDE (VAN TRY-CATCH) ---
+ 
   if (ulogaKorisnika === 'admin') {
     redirect('/admin'); 
   } else {

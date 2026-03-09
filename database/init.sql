@@ -44,14 +44,6 @@ CREATE TABLE order_items (
 );
 
 
-CREATE TABLE reviews (
-    id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id) ON DELETE CASCADE,
-    product_id INT REFERENCES products(id) ON DELETE CASCADE,
-    rating INT CHECK (rating >= 1 AND rating <= 5),
-    comment TEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
 
 INSERT INTO categories (naziv) VALUES ('Cegeri'), ('Majice');
@@ -67,10 +59,10 @@ INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon)
 VALUES ('Tamara Drca', 'tamara@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 1', '060123456');
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 2', '060123457');
+VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', '$2b$10$nvokcfhLQPx1yMyffUmtl.W/huDPRbXO6XF6t4M7EhB2vNILc5.T2', 'admin', 'Beogradska 2', '060123457');
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Miro Rakocevic', 'miro@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 3', '060123458');
+VALUES ('Miro Rakocevic', 'miro@druze.rs', '$2b$10$lRPd76Mt46w5KRTcS7lKB.p75snVo.xG6evcwT2TmPQcSgGmIlRg6', 'admin', 'Beogradska 3', '060123458');
 
 
 UPDATE products SET slika_url = '/images/cegerDruze.jpg' WHERE id = 1;

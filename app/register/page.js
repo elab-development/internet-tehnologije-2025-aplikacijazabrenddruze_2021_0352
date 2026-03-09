@@ -40,7 +40,7 @@ export default function RegisterPage() {
             />
           </div>
 
-          {/* NOVA POLJA: Adresa i Telefon */}
+          
           <div className="flex flex-col gap-1">
             <label className="text-xs font-black uppercase tracking-widest text-zinc-800 dark:text-zinc-300">
               Adresa za dostavu
