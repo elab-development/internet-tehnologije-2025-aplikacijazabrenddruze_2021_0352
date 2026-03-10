@@ -1,52 +1,50 @@
-import Image from "next/image";
-import mysql from 'mysql2/promise';
+export const revalidate = 0;
+
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Pool } from 'pg';
 import Link from "next/link";
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 export default async function Home() {
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || 'roottam1',
-    database: process.env.DB_NAME || 'druze_shop'
-  });
-  const [proizvodi] = await connection.execute('SELECT * FROM products');
-  await connection.end();
+  const proizvodi = await prisma.product.findMany();
+
   return (
-    <main className="min-h-screen bg-white p-8">
+    <main className="min-h-screen bg-white p-8 md:p-16 text-black">
       <div className="max-w-7xl mx-auto">
-       <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
+
+        <div className="mb-16">
+          <h1 className="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none">
             <span className="text-[var(--color-druze-roze)]">Druže</span> <br />
             Kolekcija 2026
           </h1>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="h-2 w-32 bg-black mt-4"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {proizvodi.map((proizvod) => (
             <Link href={`/products/${proizvod.id}`} key={proizvod.id} className="group">
-              <div className="aspect-[3/4] border-2 border-black overflow-hidden relative bg-zinc-50 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[8px_8px_0px_0px_rgba(255,0,255,1)] transition-all">
-                <img 
-                  src={proizvod.slika_url || "/images/placeholder.jpg"} 
+              <div className="w-full aspect-[3/4] border-2 border-black overflow-hidden relative bg-zinc-50 shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] group-hover:shadow-[10px_10px_0px_0px_var(--color-druze-roze)] transition-all duration-300">
+                <img
+                  src={proizvod.slika_url || "/images/placeholder.jpg"}
                   alt={proizvod.naziv}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-              </div>
-              <div className="mt-4 flex justify-between items-start font-black uppercase italic">
-                <div>
-                  <h3 className="text-lg leading-none">{proizvod.naziv}</h3>
-                  <p className="text-zinc-400 text-xs mt-1">{proizvod.kategorija}</p>
+
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/10">
+                  <div className="bg-white border-2 border-black px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    Vidi detalje
+                  </div>
                 </div>
               </div>
-              
             </Link>
           ))}
         </div>
+
       </div>
-
-    
-    
-
     </main>
-  
-);
+  );
 }

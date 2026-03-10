@@ -8,7 +8,6 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log('Započinjem ubacivanje podataka...');
 
   const katCegeri = await prisma.category.create({ data: { naziv: 'Cegeri' } });
   const katMajice = await prisma.category.create({ data: { naziv: 'Majice' } });
@@ -30,7 +29,6 @@ async function main() {
     ]
   });
 
-  console.log('Baza je uspešno popunjena početnim podacima!');
 }
 
 main()

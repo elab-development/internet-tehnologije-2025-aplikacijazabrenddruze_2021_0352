@@ -1,4 +1,5 @@
 
+
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     naziv VARCHAR(255) NOT NULL
@@ -44,34 +45,30 @@ CREATE TABLE order_items (
 );
 
 
-CREATE TABLE reviews (
-    id SERIAL PRIMARY KEY,
-    user_id INT REFERENCES users(id) ON DELETE CASCADE,
-    product_id INT REFERENCES products(id) ON DELETE CASCADE,
-    rating INT CHECK (rating >= 1 AND rating <= 5),
-    comment TEXT,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
 
 INSERT INTO categories (naziv) VALUES ('Cegeri'), ('Majice');
 
 
 INSERT INTO products (naziv, opis, cena, lager, category_id) VALUES 
-('Ceger "Brend Druze" - Klasik', 'Ekološki pamučni ceger sa logoom.', 1200.00, 50, 1),
-('Ceger "Umetnost na ramenu"', 'Specijalna edicija sa ilustracijom.', 1500.00, 30, 1),
-('Majica "Druze" Bela', 'Kvalitetna 100% pamučna majica.', 1800.00, 20, 2),
-('Majica "Druze" Crna', 'Oversized model sa printom.', 2200.00, 15, 2);
+('Ceger Druze klasik', 'Ekološki pamučni ceger sa logoom.', 1200.00, 50, 1),
+('Ceger Dizvines', 'Specijalna edicija sa ilustracijom.', 1500.00, 30, 1),
+('A sta ako uspe majica', 'Kvalitetna 100% pamučna majica.', 1800.00, 20, 2),
+('Ko zna zasto je to dobro majica', 'Oversized model sa printom.', 2200.00, 15, 2);
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
 VALUES ('Tamara Drca', 'tamara@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 1', '060123456');
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 2', '060123457');
+VALUES ('Anastasija Knezevic', 'anastasija@druze.rs', '$2b$10$nvokcfhLQPx1yMyffUmtl.W/huDPRbXO6XF6t4M7EhB2vNILc5.T2', 'admin', 'Beogradska 2', '060123457');
 
 INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
-VALUES ('Miro Rakocevic', 'miro@druze.rs', '$2b$10$6Jojqg34/alw45DutoL.VeAOo/pmfSR8RNhfzfh6FbS.fWk3yS4Ii', 'admin', 'Beogradska 3', '060123458');
+VALUES ('Miro Rakocevic', 'miro@druze.rs', '$2b$10$lRPd76Mt46w5KRTcS7lKB.p75snVo.xG6evcwT2TmPQcSgGmIlRg6', 'admin', 'Beogradska 3', '060123458');
 
+
+INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
+VALUES ('Gost Korisnik', 'gost@druze.rs', '$2b$10$lRPd76Mt46w5KRTcS7lKB.p75snVo.xG6evcwT2TmPQcSgGmIlRg6', 'gost', 'Nema adrese', '000000');
+INSERT INTO users (ime_prezime, email, password, uloga, adresa, kontakt_telefon) 
+VALUES ('Marko Markovic', 'marko@gmail.com', '$2b$10$lRPd76Mt46w5KRTcS7lKB.p75snVo.xG6evcwT2TmPQcSgGmIlRg6', 'kupac', 'Cara Dušana 10, Beograd', '064111222');
 
 UPDATE products SET slika_url = '/images/cegerDruze.jpg' WHERE id = 1;
 UPDATE products SET slika_url = '/images/cegerDizvines.jpg' WHERE id = 2;

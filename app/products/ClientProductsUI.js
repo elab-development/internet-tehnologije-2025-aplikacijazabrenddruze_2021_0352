@@ -7,9 +7,7 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
   return (
     <div className="min-h-screen bg-zinc-50 p-12 font-sans text-black">
       <div className="max-w-5xl mx-auto">
-
         <div className="flex justify-between items-center mb-10">
-          <h1 className="text-4xl font-black uppercase italic">Brend <span className="text-druze-roze">Druže</span> - Inventar</h1>
           <button
             onClick={() => setShowForm(!showForm)}
             className="h-14 px-8 bg-black text-white rounded-2xl font-bold hover:scale-105 transition-all shadow-lg"
@@ -18,12 +16,10 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
           </button>
         </div>
 
-
         {showForm && (
           <form action={(fd) => { dodajAction(fd); setShowForm(false); }} className="mb-12 p-8 bg-white border-4 border-black rounded-[2.5rem] grid grid-cols-2 gap-4 shadow-2xl">
             <input name="naziv" placeholder="Naziv artikla" className="p-4 bg-zinc-100 rounded-2xl outline-none" required />
             <input name="cena" type="number" placeholder="Cena (RSD)" className="p-4 bg-zinc-100 rounded-2xl outline-none" required />
-
 
             <select name="category_id" className="p-4 bg-zinc-100 rounded-2xl outline-none font-bold" required>
               <option value="">Izaberi kategoriju...</option>
@@ -31,7 +27,12 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
               <option value="2">Majica</option>
             </select>
 
-            
+            <input
+              name="slika_url"
+              placeholder="Putanja slike (npr. /images/ceger.jpg)"
+              className="p-4 bg-zinc-100 rounded-2xl outline-none"
+            />
+
             <input
               name="dostupne_velicine"
               placeholder="Veličine S,M,L,XL; ostavi prazno za cegere"
@@ -46,10 +47,18 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
           </form>
         )}
 
-
         <div className="grid gap-4">
           {products.map((p) => (
-            <div key={p.id} className="flex items-center justify-between p-6 bg-white border-2 border-zinc-100 rounded-3xl hover:border-black transition-all shadow-sm">
+            <div key={p.id} className="flex items-center gap-6 p-6 bg-white border-2 border-zinc-100 rounded-3xl hover:border-black transition-all shadow-sm">
+              
+              <div className="w-24 h-24 flex-shrink-0 overflow-hidden rounded-2xl border-2 border-zinc-100">
+                <img 
+                  src={p.slika_url || '/images/placeholder.jpg'} 
+                  alt={p.naziv}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
               <div className="flex-1">
                 <h3 className="text-xl font-bold">{p.naziv}</h3>
                 <p className="text-zinc-400 text-sm">Lager: {p.lager} kom | ID: #{p.id}</p>
@@ -57,8 +66,7 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
               </div>
 
               <div className="flex items-center gap-8">
-                <span className="text-2xl font-black">{p.cena} RSD</span>
-
+                <span className="text-2xl font-black">{Number(p.cena)} RSD</span>
 
                 <form action={obrisiAction}>
                   <input type="hidden" name="id" value={p.id} />
@@ -70,7 +78,6 @@ export default function ClientProductsUI({ products, dodajAction, obrisiAction }
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

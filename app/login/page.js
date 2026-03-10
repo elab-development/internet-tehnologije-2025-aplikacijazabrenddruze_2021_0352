@@ -1,9 +1,27 @@
+'use client'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ulogujKorisnika } from '../actions/auth'; // Ovo ćemo napraviti u koraku 2
+import { loginAction } from '../actions/auth';
 
 export default function LoginPage() {
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  async function handleLogin(formData) {
+    setError("");
+    const result = await loginAction(formData);
+
+    if (result.error) {
+      setError(result.error);
+    } else if (result.success) {
+      router.push('/products');
+      router.refresh(); 
+    }
+  }
+
   return (
-    <main className="min-h-screen flex items-center justify-center bg-zinc-50 p-6 dark:bg-black">
+    <main className="min-h-screen flex items-center justify-center bg-zinc-50 p-6 dark:bg-black font-sans">
       <div className="w-full max-w-md bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:bg-zinc-900 dark:border-zinc-700 dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.1)]">
         
         <div className="text-center mb-8">
@@ -15,9 +33,13 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Povezujemo formu sa Server Akcijom */}
-        <form action={ulogujKorisnika} className="flex flex-col gap-5">
-          
+        {error && (
+          <div className="mb-6 p-4 border-2 border-red-500 bg-red-50 text-red-600 font-bold text-xs uppercase tracking-widest">
+            {error}
+          </div>
+        )}
+        
+        <form action={handleLogin} className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <label className="text-xs font-black uppercase tracking-widest text-zinc-800 dark:text-zinc-300">
               Email adresa
@@ -50,7 +72,6 @@ export default function LoginPage() {
           >
             Uloguj se
           </button>
-
         </form>
 
         <div className="mt-8 pt-6 border-t-4 border-black dark:border-zinc-700 text-center">
@@ -61,7 +82,6 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
-
       </div>
     </main>
   );
